@@ -1,35 +1,70 @@
 package calculator;
 
+
 public class Calculator {
+    private int previousValue;
+    private int nextValue;
+    private int totalValue;
+    private String symbol;
+    private final ExpressionValidator validator;
 
-    public void validationCheck(String data) {
-        if (" ".equals(data) || data == null) {
-            throw new IllegalArgumentException("잘못된 값이 넘어왔습니다.");
-        }
+    public Calculator() {
+        this.previousValue = 0;
+        this.nextValue = 0;
+        this.totalValue = 0;
+        this.symbol = null;
+        this.validator = new ExpressionValidator();
     }
 
-    public boolean isExists(String symbol) {
-        for (Symbol operationSymbol : Symbol.values()) {
-            if (operationSymbol.getSymbol().equals(symbol)) {
-                return true;
+    public int calculation(String expression) {
+        validator.validationCheck(expression);
+        for (String data : expression.split(" ")) {
+            if (readyOperation()) {
+                this.totalValue = totalValue + calc();
+            }
+
+            if (!isNumber(data)) {
+                symbol = data;
+            } else {
+                if (previousValue == 0) {
+                    this.nextValue = toInt(data);
+                } else {
+                    this.previousValue = toInt(data);
+                }
             }
         }
 
-        return false;
+        return this.totalValue;
     }
 
+    private int calc() {
+        Symbol symbol = validator.toEnum(this.symbol);
+        int result = symbol.calculate(this.previousValue , this.nextValue);
 
-    public int toInt(String symbol) {
-        return Integer.parseInt(symbol);
+        clear();
+        return result;
     }
 
-    public Symbol toEnum(String symbol) {
-        for (Symbol operationSymbol : Symbol.values()) {
-            if (operationSymbol.getSymbol().equals(symbol)) {
-                return operationSymbol;
-            }
+    private void clear() {
+        this.symbol = null;
+        this.nextValue = 0;
+    }
+
+    private boolean readyOperation() {
+        return this.previousValue != 0 && this.nextValue != 0 && this.symbol != null;
+    }
+
+    private boolean isNumber(String data) {
+        try {
+            Integer.parseInt(data);
+        } catch (NumberFormatException e) {
+            return false;
         }
 
-        throw new IllegalArgumentException("잘못된 기호입니다.");
+        return true;
+    }
+
+    private int toInt(String data) {
+        return Integer.parseInt(data);
     }
 }
