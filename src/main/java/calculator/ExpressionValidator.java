@@ -10,15 +10,15 @@ public class ExpressionValidator {
     }
 
     private void inputDataRegex(String data) {
-        if (" ".equals(data) || data == null) {
+        if (data == null || "".equals(data.trim())) {
             throw new IllegalArgumentException("잘못된 값이 넘어왔습니다.");
         }
     }
 
-    public Symbol toEnum(String symbol) {
-        for (Symbol operationSymbol : Symbol.values()) {
-            if (operationSymbol.getSymbol().equals(symbol)) {
-                return operationSymbol;
+    public Operator toEnum(String operator) {
+        for (Operator operationOperator : Operator.values()) {
+            if (operationOperator.getOperator().equals(operator)) {
+                return operationOperator;
             }
         }
 
