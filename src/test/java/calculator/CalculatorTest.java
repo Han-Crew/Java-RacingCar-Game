@@ -93,11 +93,6 @@ public class CalculatorTest {
 
             assertThat(exception.getClass()).isEqualTo(IllegalArgumentException.class);
         }
-
-        @Test
-        void asd() {
-            System.out.println(" ".trim().equals(""));
-        }
     }
 
     @Nested
