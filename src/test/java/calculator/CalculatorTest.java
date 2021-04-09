@@ -123,4 +123,5 @@ public class CalculatorTest {
             assertThat(calculator.calculate(expression)).isEqualTo(1);
         }
     }
+
 }
