@@ -104,7 +104,7 @@ public class CalculatorTest {
             String expression = "3 + 2 * 3 / 5";
             assertThat(calculator.calculate(expression)).isEqualTo(3);
         }
-
+        
         @Test
         public void 사칙연산_테스트2() {
             String expression = "5 * 2 + 2 / 2";
