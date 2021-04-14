@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CalculatorTest {
@@ -26,25 +27,25 @@ public class CalculatorTest {
 
         @Test
         public void 더하기_테스트() {
-            Operator operator = validator.toEnum("+");
+            Operator operator = Operator.toEnum("+");
             assertThat(operator.calculate(PREVIOUS_VALUE , NEXT_VALUE)).isEqualTo(30);
         }
 
         @Test
         public void 빼기_테스트() {
-            Operator operator = validator.toEnum("-");
+            Operator operator = Operator.toEnum("-");
             assertThat(operator.calculate(PREVIOUS_VALUE , NEXT_VALUE)).isEqualTo(10);
         }
 
         @Test
         public void 곱하기_테스트() {
-            Operator operator = validator.toEnum("*");
+            Operator operator = Operator.toEnum("*");
             assertThat(operator.calculate(PREVIOUS_VALUE , NEXT_VALUE)).isEqualTo(200);
         }
 
         @Test
         public void 나누기_테스트() {
-            Operator operator = validator.toEnum("/");
+            Operator operator = Operator.toEnum("/");
             assertThat(operator.calculate(PREVIOUS_VALUE , NEXT_VALUE)).isEqualTo(2);
         }
     }
@@ -65,6 +66,10 @@ public class CalculatorTest {
             assertThat(널값을_넘긴_경우.getClass()).isEqualTo(IllegalArgumentException.class);
 
 
+            assertThatExceptionOfType(IllegalArgumentException.class)
+                    .isThrownBy(() -> calculator.calculate(널_VALUE));
+
+
             RuntimeException 공백을_넘긴_경우 = assertThrows(
                     IllegalArgumentException.class,
                     () -> calculator.calculate(빈_공백));
@@ -78,7 +83,7 @@ public class CalculatorTest {
 
             RuntimeException exception = assertThrows(
                     RuntimeException.class,
-                    () -> validator.toEnum(wrongOperator));
+                    () -> Operator.toEnum(wrongOperator));
 
             assertThat(exception.getClass()).isEqualTo(IllegalArgumentException.class);
         }
@@ -89,7 +94,7 @@ public class CalculatorTest {
 
             RuntimeException exception = assertThrows(
                     RuntimeException.class,
-                    () -> validator.validationCheck(expression));
+                    () -> ExpressionValidator.validationCheck(expression));
 
             assertThat(exception.getClass()).isEqualTo(IllegalArgumentException.class);
         }
@@ -121,6 +126,20 @@ public class CalculatorTest {
         public void 사칙연산_테스트4() {
             String expression = "5 * 5 / 5 / 5";
             assertThat(calculator.calculate(expression)).isEqualTo(1);
+        }
+
+        @Test
+        public void 사칙연산_마이너스값_테스트() {
+            String expression = "2 + 3 - 10";
+            assertThat(calculator.calculate(expression)).isEqualTo(-5);
+        }
+
+        @Test
+        public void 사칙연산_0으로_나누면_에러발생() {
+            String expression = "5 * 5 / 5 / 0";
+
+            assertThatExceptionOfType(IllegalArgumentException.class)
+                    .isThrownBy(() -> calculator.calculate(expression));
         }
     }
 
