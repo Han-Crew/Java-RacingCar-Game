@@ -1,23 +1,23 @@
 package calculator;
 
 public class Calculator {
-    private int previousValue;
-    private int nextValue;
+    public static final String BLANK = " ";
+
+    private Integer previousValue;
+    private Integer nextValue;
     private int result;
     private String operator;
-    private final ExpressionValidator validator;
 
     public Calculator() {
-        this.previousValue = 0;
-        this.nextValue = 0;
+        this.previousValue = null;
+        this.nextValue = null;
         this.result = 0;
         this.operator = null;
-        this.validator = new ExpressionValidator();
     }
 
     public int calculate(String expression) {
-        validator.validationCheck(expression);
-        for (String data : expression.split(" ")) {
+        ExpressionValidator.validationCheck(expression);
+        for (String data : expression.split(BLANK)) {
             updateOperand(data);
             updateResult();
         }
@@ -26,25 +26,24 @@ public class Calculator {
     }
 
     private void updateOperand(String data) {
-        if (!isNumber(data)) {
-            operator = data;
-        } else {
-            if (previousValue == 0 && nextValue == 0) {
-                this.previousValue = toInt(data);
-            } else {
-                this.nextValue = toInt(data);
-            }
+        try {
+            Integer.parseInt(data);
+            initializeValueCheck(data);
+        } catch (NumberFormatException e) {
+            updateOperator(data);
         }
     }
 
-    private boolean isNumber(String data) {
-        try {
-            Integer.parseInt(data);
-        } catch (NumberFormatException e) {
-            return false;
+    private void initializeValueCheck(String data) {
+        if (previousValue == null && nextValue == null) {
+            this.previousValue = toInt(data);
+        } else {
+            this.nextValue = toInt(data);
         }
+    }
 
-        return true;
+    private void updateOperator(String data) {
+        this.operator = data;
     }
 
     private int toInt(String data) {
@@ -53,7 +52,7 @@ public class Calculator {
 
     private void updateResult() {
         if (readyOperation()) {
-            Operator operator = validator.toEnum(this.operator);
+            Operator operator = Operator.toEnum(this.operator);
             int result = operator.calculate(this.previousValue , this.nextValue);
             this.result = result;
             resetOperatorAndNextValue(result);
@@ -61,12 +60,12 @@ public class Calculator {
     }
 
     private boolean readyOperation() {
-        return this.previousValue != 0 && this.nextValue != 0 && this.operator != null;
+        return this.previousValue != null && this.nextValue != null && this.operator != null;
     }
 
     private void resetOperatorAndNextValue(int result) {
         this.previousValue = result;
         this.operator = null;
-        this.nextValue = 0;
+        this.nextValue = null;
     }
 }
