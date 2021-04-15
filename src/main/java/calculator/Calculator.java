@@ -1,71 +1,47 @@
 package calculator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Calculator {
     public static final String BLANK = " ";
 
-    private Integer previousValue;
-    private Integer nextValue;
     private int result;
-    private String operator;
-
-    public Calculator() {
-        this.previousValue = null;
-        this.nextValue = null;
-        this.result = 0;
-        this.operator = null;
-    }
+    private List<Integer> numbers = new ArrayList<>();
+    private List<Operator> operatorList = new ArrayList<>();
 
     public int calculate(String expression) {
         ExpressionValidator.validationCheck(expression);
+        initializeExpressionData(expression);
+        return expressionResult();
+    }
+
+    private void initializeExpressionData(String expression) {
         for (String data : expression.split(BLANK)) {
-            updateOperand(data);
-            updateResult();
+            updateExpressionData(data);
         }
-
-        return this.result;
     }
 
-    private void updateOperand(String data) {
+    private void updateExpressionData(String data) {
         try {
-            Integer.parseInt(data);
-            initializeValueCheck(data);
+            int number = Integer.parseInt(data);
+            numbers.add(number);
         } catch (NumberFormatException e) {
-            updateOperator(data);
+            operatorList.add(Operator.toEnum(data));
         }
     }
 
-    private void initializeValueCheck(String data) {
-        if (previousValue == null && nextValue == null) {
-            this.previousValue = toInt(data);
-        } else {
-            this.nextValue = toInt(data);
+    private int expressionResult() {
+        result = this.numbers.get(0);
+
+        for (int i = 0; i < this.operatorList.size(); i++) {
+            result = calculation(result, this.operatorList.get(i), this.numbers.get(i + 1));
         }
+
+        return result;
     }
 
-    private void updateOperator(String data) {
-        this.operator = data;
-    }
-
-    private int toInt(String data) {
-        return Integer.parseInt(data);
-    }
-
-    private void updateResult() {
-        if (readyOperation()) {
-            Operator operator = Operator.toEnum(this.operator);
-            int result = operator.calculate(this.previousValue , this.nextValue);
-            this.result = result;
-            resetOperatorAndNextValue(result);
-        }
-    }
-
-    private boolean readyOperation() {
-        return this.previousValue != null && this.nextValue != null && this.operator != null;
-    }
-
-    private void resetOperatorAndNextValue(int result) {
-        this.previousValue = result;
-        this.operator = null;
-        this.nextValue = null;
+    private int calculation(int previousValue , Operator operator , int nextValue) {
+        return operator.calculate(previousValue , nextValue);
     }
 }
