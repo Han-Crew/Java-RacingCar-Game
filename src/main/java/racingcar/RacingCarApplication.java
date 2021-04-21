@@ -13,9 +13,8 @@ public class RacingCarApplication {
         int challengeCount = in.nextInt();
 
         CarList carList = new CarList(carCount);
+
         Game game = new Game(challengeCount , carList);
         game.start();
-
-        game.result();
     }
 }
