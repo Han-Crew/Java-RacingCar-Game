@@ -13,9 +13,11 @@ public class Game {
         for (int i=0; i<challengeCount; i++) {
             carList.run();
         }
+
+        result();
     }
 
-    public void result() {
+    private void result() {
         for (int i=0; i<carList.getCarList().size(); i++) {
             Car car = carList.getCar(i);
             System.out.println(car.getDistance());
