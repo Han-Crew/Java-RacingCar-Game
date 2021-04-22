@@ -6,9 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RacingCarTest {
 
@@ -19,7 +18,7 @@ public class RacingCarTest {
 
         @BeforeEach
         public void init() {
-            car = new Car();
+            car = new Car("TEST");
         }
 
         @Test
@@ -27,7 +26,7 @@ public class RacingCarTest {
             int mockRandomValue = 5;
             car.move(mockRandomValue);
 
-            assertThat(car.getDistance()).isEqualTo("-");
+            assertThat(car.getPosition()).isEqualTo(1);
         }
 
         @Test
@@ -37,7 +36,7 @@ public class RacingCarTest {
             car.move(mockRandomValue);
             car.move(mockRandomValue);
 
-            assertThat(car.getDistance()).isEqualTo("---");
+            assertThat(car.getPosition()).isEqualTo(3);
         }
 
         @Test
@@ -45,7 +44,7 @@ public class RacingCarTest {
             int mockRandomValue = 3;
             car.move(mockRandomValue);
 
-            assertThat(car.getDistance()).isEqualTo("");
+            assertThat(car.getPosition()).isEqualTo(0);
         }
 
         @Test
@@ -55,21 +54,63 @@ public class RacingCarTest {
             car.move(mockRandomValue);
             car.move(mockRandomValue);
 
-            assertThat(car.getDistance()).isEqualTo("");
+            assertThat(car.getPosition()).isEqualTo(0);
+        }
+
+        @Test
+        public void 랜덤값이_0부터_9사이가_아니면_오류발생() {
+            int mockRandomValue = 10;
+
+            RuntimeException exception = assertThrows(
+                    RuntimeException.class,
+                    () -> car.move(mockRandomValue));
+
+            assertThat(exception.getClass()).isEqualTo(IllegalArgumentException.class);
+        }
+
+        @Test
+        public void 랜덤값이_0부터_9사이가_아니면_오류발생2() {
+            int mockRandomValue = -1;
+
+            RuntimeException exception = assertThrows(
+                    RuntimeException.class,
+                    () -> car.move(mockRandomValue));
+
+            assertThat(exception.getClass()).isEqualTo(IllegalArgumentException.class);
         }
     }
 
     @Nested
-    @DisplayName("다수의 자동차 이동 테스트")
+    @DisplayName("다수의 자동차 생성 테스트")
     class ManyCarTest {
 
         @Test
-        public void 입력한_수만큼의_자동차_생성() {
-            int inputValue = 3;
-            CarList carList = new CarList(inputValue);
+        public void 이름으로_자동차_생성() {
+            String carNames = "Car1,Car2,Car3";
+            CarList carList = new CarList(carNames);
+            assertThat(carList.getCarList().size()).isEqualTo(3);
+        }
 
-            System.out.println(carList.getCarList().size());
-            assertThat(carList.getCarList().size()).isEqualTo(inputValue);
+        @Test
+        public void 자동차_이름이_5자이상이면_오류발생() {
+            String carNames = "CarName2,Car1,CarNamesIsLong";
+
+            RuntimeException exception = assertThrows(
+                    RuntimeException.class,
+                    () -> new CarList(carNames));
+
+            assertThat(exception.getClass()).isEqualTo(IllegalArgumentException.class);
+        }
+
+        @Test
+        public void 자동차_이름에_공백이있으면_오류발생() {
+            String carNames = "Car ,Car1,Car2 ";
+
+            RuntimeException exception = assertThrows(
+                    RuntimeException.class,
+                    () -> new CarList(carNames));
+
+            assertThat(exception.getClass()).isEqualTo(IllegalArgumentException.class);
         }
     }
 
@@ -82,25 +123,13 @@ public class RacingCarTest {
             int inputValue = 5;
             int mockRandomValue = 5;
 
-            Car car = new Car();
-            String distance = "";
+            Car car = new Car("TEST");
 
             for (int i=0; i<inputValue; i++) {
                 car.move(mockRandomValue);
-                distance = distance + "-";
             }
 
-            assertThat(car.getDistance()).isEqualTo(distance);
-        }
-
-        @Test
-        void ranTest() {
-            Random rand = new Random();
-
-            for (int i=0; i<30; i++) {
-                System.out.println(rand.nextInt(10));
-//                System.out.println((int) ((Math.random() * 9) + 1));
-            }
+            assertThat(car.getPosition()).isEqualTo(inputValue);
         }
     }
 }
