@@ -6,15 +6,15 @@ public class RacingCarApplication {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        System.out.println("자동차 대수는 몇 대 인가요?");
-        int carCount = in.nextInt();
+        System.out.println("경주할 자동차 이름을 입력하세요.");
+        String carNames = in.nextLine();
 
         System.out.println("시도할 횟수는 몇 번 인가요?");
-        int challengeCount = in.nextInt();
+        int numberOfTry = in.nextInt();
 
-        CarList carList = new CarList(carCount);
+        CarList carList = new CarList(carNames);
 
-        Game game = new Game(challengeCount , carList);
+        Game game = new Game(numberOfTry , carList);
         game.start();
     }
 }
