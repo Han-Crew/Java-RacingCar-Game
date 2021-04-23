@@ -1,6 +1,6 @@
-package racingcar.view;
+package racingcar.my.view;
 
-import racingcar.domain.CarList;
+import racingcar.my.domain.CarList;
 
 import java.util.Scanner;
 
