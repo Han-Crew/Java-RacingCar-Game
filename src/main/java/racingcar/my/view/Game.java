@@ -1,7 +1,7 @@
-package racingcar.view;
+package racingcar.my.view;
 
-import racingcar.domain.Car;
-import racingcar.domain.CarList;
+import racingcar.my.domain.Car;
+import racingcar.my.domain.CarList;
 
 public class Game {
     private final int numberOfTry;
