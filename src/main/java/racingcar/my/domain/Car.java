@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.my.domain;
 
 public class Car {
     public static final String MOVE_SYMBOL = "-";

@@ -1,10 +1,10 @@
-package racingcar;
+package racingcar.my;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.Car;
-import racingcar.domain.CarList;
+import racingcar.my.domain.Car;
+import racingcar.my.domain.CarList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

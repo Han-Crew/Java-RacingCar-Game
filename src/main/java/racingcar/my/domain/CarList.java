@@ -1,4 +1,6 @@
-package racingcar;
+package racingcar.my.domain;
+
+import racingcar.my.view.GameStringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ public class CarList {
         winningCars = new ArrayList<>();
         String[] carNameArray = splitCarNames(carNames);
         this.racingCarList = new ArrayList<>(carNameArray.length);
-        this.setCarList(carNameArray);
+        this.setCarListData(carNameArray);
     }
 
     private String[] splitCarNames(String carNames) {
@@ -21,7 +23,7 @@ public class CarList {
         return carNameArray;
     }
 
-    private void setCarList(String[] carNameArray) {
+    private void setCarListData(String[] carNameArray) {
         for (int i=0; i<carNameArray.length; i++) {
             Car car = new Car(carNameArray[i]);
             this.racingCarList.add(car);
@@ -47,23 +49,10 @@ public class CarList {
         int maximumPosition = getMaximumPosition();
         for (int i=0; i< getCarList().size(); i++) {
             Car car = getCar(i);
-            if (maximumPosition == car.getPosition()) {
-                winningCars.add(car.getName());
-            }
+            compareMaximumPosition(maximumPosition , car);
         }
 
-        return getWinningCarsToString(winningCars);
-    }
-
-    private String getWinningCarsToString(List<String> winningCars) {
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i=0; i< winningCars.size(); i++) {
-            stringBuffer.append(winningCars.get(i));
-            stringBuffer.append(",");
-        }
-
-        String result = stringBuffer.toString();
-        return result.substring(0 , result.length() - 1);
+        return GameStringUtils.getWinningCarsToString(winningCars);
     }
 
     private int getMaximumPosition() {
@@ -81,5 +70,11 @@ public class CarList {
         }
 
         return position;
+    }
+
+    private void compareMaximumPosition(int maximumPosition , Car car) {
+        if (car.isEqualsPosition(maximumPosition)) {
+            winningCars.add(car.getName());
+        }
     }
 }
