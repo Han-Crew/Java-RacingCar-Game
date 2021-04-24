@@ -14,7 +14,7 @@ public class CarTest {
                 return 4;
             }
         };
-        car.move();
+        car.move2();
         assertThat(car.getPosition()).isEqualTo(1);
     }
 
@@ -26,7 +26,7 @@ public class CarTest {
                 return 3;
             }
         };
-        car.move();
+        car.move2();
         assertThat(car.getPosition()).isEqualTo(0);
     }
 }

@@ -13,7 +13,7 @@ public class RacingGame {
 
     private void moveCars() {
         for (Car car :  cars) {
-            car.move();
+//            car.move();
         }
     }
 
