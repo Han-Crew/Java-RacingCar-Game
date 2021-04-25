@@ -1,7 +1,6 @@
 package racingcar.javajigi.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class RacingGame {
@@ -46,9 +45,5 @@ public class RacingGame {
 
     public Winners getWinners() {
         return cars.findWinner();
-    }
-
-    public boolean racing() {
-        return this.tryNo > 0;
     }
 }
