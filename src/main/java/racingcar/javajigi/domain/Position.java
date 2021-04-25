@@ -21,6 +21,18 @@ public class Position {
         return this;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public boolean samePosition(int position) {
+        return this.position == position;
+    }
+
+    public boolean isGreaterThan(int maxPosition) {
+        return this.position > maxPosition;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

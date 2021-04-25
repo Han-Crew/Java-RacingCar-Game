@@ -1,6 +1,7 @@
 package racingcar.javajigi.domain;
 
 
+import java.util.Objects;
 import java.util.Random;
 
 public class Car {
@@ -9,11 +10,13 @@ public class Car {
     private final Name name;
     private Position position = new Position();
 
-    public Car(String name) {
-        if ("".equals(name)) {
-            throw new IllegalArgumentException("자동차는 이름을 갖고 있어야 합니다.");
-        }
+    public Car(final String name) {
+        this(name , 0);
+    }
+
+    public Car(final String name , int position) {
         this.name = new Name(name);
+        this.position = new Position(position);
     }
 
     public Position getPosition() {
@@ -26,13 +29,28 @@ public class Car {
         }
     }
 
-    public void move2() {
-        if (getRandomNo() >= FORWARD_NUM)
-            this.position.move();
+    public boolean isWinner(int maxPosition) {
+        return position.samePosition(maxPosition);
     }
 
-    protected int getRandomNo() {
-        Random random = new Random();
-        return random.nextInt(MAX_BOUND);
+    public int max(int maxPosition) {
+        if (position.isGreaterThan(maxPosition)) {
+            return position.getPosition();
+        }
+
+        return maxPosition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(name, car.name) && Objects.equals(position, car.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, position);
     }
 }
