@@ -1,12 +1,14 @@
 package racingcar.javajigi.domain;
 
-import java.util.ArrayList;
+import racingcar.javajigi.utils.RandomUtil;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Cars {
     private final List<Car> cars;
-
+    private Random random = new Random();
     public Cars(List<Car> cars) {
         this.cars = Collections.unmodifiableList(cars);
     }
@@ -17,7 +19,8 @@ public class Cars {
 
     public void moveAll() {
         for (Car car : cars) {
-            car.move(new RandomValuedMovingStrategy());
+            RandomNumber randomNumber = new RandomNumber(RandomUtil.getRandomZeroToNine());
+            car.move(randomNumber);
         }
     }
 

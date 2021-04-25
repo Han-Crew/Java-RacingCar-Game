@@ -1,8 +1,6 @@
 package racingcar.javajigi.domain;
 
-
 import java.util.Objects;
-import java.util.Random;
 
 public class Car {
     public static final int MAX_BOUND = 10;
@@ -39,6 +37,10 @@ public class Car {
         }
 
         return maxPosition;
+    }
+
+    public Name getName() {
+        return this.name;
     }
 
     @Override

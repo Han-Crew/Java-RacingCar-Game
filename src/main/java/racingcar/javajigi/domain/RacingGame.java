@@ -44,7 +44,7 @@ public class RacingGame {
         return this.cars;
     }
 
-    public List<Car> getWinners() {
+    public Winners getWinners() {
         return cars.findWinner();
     }
 }

@@ -6,11 +6,11 @@ import java.util.List;
 public class Winners {
     private final List<Car> winners = new ArrayList<>();
 
-    public Winners(Winners winners) {
-        this.winners = winners;
-    }
-
     public void add(Car car) {
         this.winners.add(car);
+    }
+
+    public List<Car> getWinners() {
+        return winners;
     }
 }
