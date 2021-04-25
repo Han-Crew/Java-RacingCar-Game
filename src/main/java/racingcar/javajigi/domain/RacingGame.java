@@ -47,4 +47,8 @@ public class RacingGame {
     public Winners getWinners() {
         return cars.findWinner();
     }
+
+    public boolean racing() {
+        return this.tryNo > 0;
+    }
 }
