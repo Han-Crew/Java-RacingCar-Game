@@ -8,7 +8,7 @@ public class RandomNumber {
     private final int randomNo;
 
     public RandomNumber(int randomNo) {
-        if (randomNo < 1 || randomNo > 9) {
+        if (randomNo < 0 || randomNo > 9) {
             throw new IllegalArgumentException("랜덤 숫자는 0 부터 9 사이의 숫자만 올 수 있습니다.");
         }
 
@@ -17,10 +17,6 @@ public class RandomNumber {
 
     public boolean isMovable() {
         return this.randomNo > FORWARD_NUM;
-    }
-
-    public int getRandomNo() {
-        return randomNo;
     }
 
     @Override

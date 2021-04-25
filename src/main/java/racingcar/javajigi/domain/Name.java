@@ -8,7 +8,7 @@ public class Name {
 
     public Name(String name) {
         if ("".equals(name)) {
-            throw new IllegalArgumentException("빈 값을 이름으로 사용할 수 없습니다.");
+            throw new IllegalArgumentException("자동차는 이름을 갖고 있어야 합니다.");
         }
         if (name.length() > NAME_LENGTH) {
             throw new IllegalArgumentException("자동차 이름의 길이는 5이하여야 합니다.");
@@ -27,5 +27,10 @@ public class Name {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
